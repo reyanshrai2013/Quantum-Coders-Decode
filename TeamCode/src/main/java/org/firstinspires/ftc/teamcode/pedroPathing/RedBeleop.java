@@ -12,8 +12,8 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Utilities.Inits;
 import org.firstinspires.ftc.teamcode.pedroPathing.Utilities.LimelightAiming;
 
 
-@TeleOp(name = "Beleop", group = "StarterBot")
-public class Beleop extends OpMode {
+@TeleOp(name = "Red Beleop", group = "StarterBot")
+public class RedBeleop extends OpMode {
 
     final double STOP_SPEED = 0.0;
     final double FULL_SPEED = -1.0;

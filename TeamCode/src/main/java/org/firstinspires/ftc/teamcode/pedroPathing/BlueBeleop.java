@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.pedroPathing.Utilities.LimelightAiming;
 import org.firstinspires.ftc.teamcode.pedroPathing.Utilities.Inits;
 
 // Limelight handled by LimelightAiming
-@TeleOp(name = "BLUE SIDE TELEOP", group = "StarterBot")
+@TeleOp(name = "Blue Beleop", group = "StarterBot")
 public class BlueBeleop extends OpMode {
 
     final double LAUNCHER_TARGET_VELOCITY = 1500;
