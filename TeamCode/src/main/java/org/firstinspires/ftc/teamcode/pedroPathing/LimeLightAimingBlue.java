@@ -11,11 +11,9 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 
-@TeleOp(name = "RED SIDE TELEOP", group = "StarterBot")
-public class LimeLightAiming extends OpMode {
+@TeleOp(name = "BLUE SIDE TELEOP", group = "StarterBot")
+public class LimeLightAimingBlue extends OpMode {
 
-    final double STOP_SPEED = 0.0;
-    final double FULL_SPEED = -1.0;
 
     final double LAUNCHER_TARGET_VELOCITY = 1400;
     final double LAUNCHER_MIN_VELOCITY = 500;
@@ -73,7 +71,7 @@ public class LimeLightAiming extends OpMode {
         // Initialize Limelight
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100); // Poll 100 times per second
-        limelight.pipelineSwitch(0); // Use pipeline 0 (your AprilTag pipeline)
+        limelight.pipelineSwitch(1); // Use pipeline 1 (your AprilTag pipeline)
         limelight.start(); // Start the Limelight
 
         rightFeeder.setDirection(DcMotor.Direction.REVERSE);
@@ -312,4 +310,3 @@ public class LimeLightAiming extends OpMode {
         rightBackDrive.setPower(rightBackPower);
     }
 }
-
