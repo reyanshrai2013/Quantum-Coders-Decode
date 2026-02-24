@@ -12,7 +12,7 @@ import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "RED SIDE TELEOP", group = "StarterBot")
+@TeleOp(name = "BlUE SIDE TELEOP", group = "StarterBot")
 public class BlueTeleop extends OpMode {
 
     final double LAUNCHER_TARGET_VELOCITY = 1200;
