@@ -17,7 +17,6 @@ import com.qualcomm.robotcore.hardware.Servo;
  * 6. Copy the final value into your main code.
  */
 @Config
-@Disabled
 @TeleOp(name = "RGB Indicator Tuner", group = "Tuning")
 public class RGBTunerOpMode extends OpMode {
 
