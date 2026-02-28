@@ -13,9 +13,9 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-@Autonomous(name = "CLOSE SIDE RED NEW", group = "Autonomous")
+@Autonomous(name = "CLOSE SIDE RED NINE", group = "Autonomous")
 @Configurable
-public class CloseSideRedNew extends OpMode {
+public class CloseSideRedNine extends OpMode {
 
     private TelemetryManager panelsTelemetry;
     public Follower follower;
@@ -102,7 +102,7 @@ public class CloseSideRedNew extends OpMode {
                 }
 
                 if (System.currentTimeMillis() - launcherStartTime >= 500 && feed.getPower() == 0) {
-                    feed.setPower(0.75);
+                    feed.setPower(0.6);
                     intake.setPower(1.0);
                 }
 
@@ -284,7 +284,7 @@ public class CloseSideRedNew extends OpMode {
                     intake.setPower(1.0);
                     feed.setPower(0);
                     setLauncherVelocity(1150);
-                    follower.followPath(paths.shootToThirdIntake, true);
+                    follower.followPath(paths.Path9, true);
                     pathStarted = true;
                 }
                 if (pathStarted && !follower.isBusy()) {
@@ -292,66 +292,13 @@ public class CloseSideRedNew extends OpMode {
                     feed.setPower(0);
                     setLauncherVelocity(1150);
                     pathStarted = false;
-                    pathState = 13;
-                }
-                break;
-
-
-
-            case 13:
-                if (!pathStarted) {
-                    setLauncherVelocity(1150);
-                    feed.setPower(0);
-                    intake.setPower(0);
-                    waitStartTime = System.currentTimeMillis();
-                    pathStarted = true;
-                    waitStarted = true;
-                }
-
-                if (pathStarted && !follower.isBusy()) {
-                    setLauncherVelocity(1150);
-                    feed.setPower(0);
-                    intake.setPower(0);
-                    waitStarted = false;
-                    pathStarted = false;
-                    pathState = 14;
-                }
-                break;
-
-            case 15:
-                if (!pathStarted) {
-                    setLauncherVelocity(1150);
-                    launcherStartTime = System.currentTimeMillis();
-                    waitStartTime = System.currentTimeMillis();
-                    pathStarted = true;
-                    waitStarted = true;
-                }
-
-                if (System.currentTimeMillis() - launcherStartTime >= 50 && feed.getPower() == 0) {
-                    feed.setPower(1);
-                    intake.setPower(1.0);
-                }
-
-                if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait1) {
-                    setLauncherVelocity(0);
-                    feed.setPower(0);
-                    intake.setPower(0);
-                    waitStarted = false;
-                    pathStarted = false;
                     pathState = 16;
                 }
                 break;
 
-            case 14:
-                if (!pathStarted) {
-                    follower.followPath(paths.Path9, true);
-                    pathStarted = true;
-                }
-                if (pathStarted && !follower.isBusy()) {
-                    pathStarted = false;
-                    pathState = 15;
-                }
-                break;
+
+
+
 
             case 16:
                 break;
@@ -461,27 +408,18 @@ public class CloseSideRedNew extends OpMode {
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(41))
                     .build();
 
-            shootToThirdIntake = follower.pathBuilder()
-                    .addPath(
-                            new BezierCurve(
-                                    new Pose(85.108, 86.030),
-                                    new Pose(65.505, 24.728),
-                                    new Pose(136.025, 32.306)
-                            )
-                    )
-                    .setLinearHeadingInterpolation(Math.toRadians(41), Math.toRadians(0))
-                    .build();
+
 
 
 
             Path9 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(136.025, 36.306),
+                                    new Pose(96.8, 96.77033149171271),
                                     new Pose(88.227, 106.951)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(25))
+                    .setLinearHeadingInterpolation(Math.toRadians(41), Math.toRadians(-30))
                     .build();
         }
     }
