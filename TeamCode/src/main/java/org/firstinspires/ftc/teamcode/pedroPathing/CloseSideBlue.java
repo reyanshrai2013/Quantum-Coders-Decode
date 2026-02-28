@@ -1,9 +1,8 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
-import static java.lang.Thread.sleep;
-import com.google.blocks.ftcrobotcontroller.runtime.obsolete.TensorFlowAccess;
+import static org.firstinspires.ftc.teamcode.pedroPathing.Importantthingsithasrizztrust.LauncherPIDF.coeffs;
+
 import com.pedropathing.follower.Follower;
-import com.pedropathing.geometry.BezierCurve;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
@@ -21,8 +20,10 @@ public class CloseSideBlue extends OpMode {
     private Timer launchTimer;
     private Timer intakeTimer;
 
-    private DcMotorEx intake;
+    private DcMotor intake;
     private DcMotorEx launcher;
+
+    private DcMotorEx launcher2;
     private DcMotor feeder;
 
     private boolean launchStarted = false;
@@ -108,13 +109,15 @@ public class CloseSideBlue extends OpMode {
 
     @Override
     public void init() {
-        intake = hardwareMap.get(DcMotorEx.class, "intake");
+        intake = hardwareMap.get(DcMotor.class, "intake");
         launcher = hardwareMap.get(DcMotorEx.class, "launch");
+        launcher2 = hardwareMap.get(DcMotorEx.class, "launch1");
         feeder = hardwareMap.get(DcMotor.class, "feed");
         feeder.setDirection(DcMotor.Direction.REVERSE);
 
         launcher.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        launcher.setVelocityPIDFCoefficients(60,0,0,12);
+        launcher.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
+        launcher2.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
 
         follower = Constants.createFollower(hardwareMap);
         follower.setStartingPose(startPose);
@@ -126,6 +129,11 @@ public class CloseSideBlue extends OpMode {
         pathState = PathState.DRIVE_STARTPOS_SHOOT_POS;
         buildPaths();
         follower.setPose(startPose);
+    }
+
+    private void setLauncherVelocity(double v) {
+        launcher.setVelocity(v);
+        launcher2.setVelocity(v);
     }
 
     @Override
