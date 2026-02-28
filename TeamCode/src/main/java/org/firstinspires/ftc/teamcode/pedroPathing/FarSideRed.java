@@ -555,7 +555,6 @@ public class FarSideRed extends OpMode {
         public double Wait2 = 2050;
         public double Wait3 = 3750;
 
-
         public Paths(Follower follower) {
 
             // ── Original FarSideRed paths (unchanged) ─────────────────────────
