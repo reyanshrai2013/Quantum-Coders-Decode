@@ -6,13 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.Importantthingsithasrizztrust.LauncherPIDF.coeffs;
+import static org.firstinspires.ftc.teamcode.pedroPathing.Importantthingsithasrizztrust.daperfectlighttune.*;
 import com.qualcomm.hardware.limelightvision.LLResult;
 import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.Servo;
 
-@TeleOp(name = "RED SIDE TELEOP", group = "StarterBot")
+
+@TeleOp(name = "BLUE SIDE TELEOP", group = "Teleop")
 public class BlueTeleop extends OpMode {
 
     final double LAUNCHER_TARGET_VELOCITY = 1200;
@@ -41,7 +43,6 @@ public class BlueTeleop extends OpMode {
     private double launcherTargetVelocity = 0;
     private boolean lastLB = false, lastLT = false;
 
-    private final double RED = 0.277, ORANGE = 0.333, GREEN = 0.500, WHITE = 67;
     private int limelightAimed = 0; // 0=no target, 1=locked, 2=tracking
 
     private boolean hasRumbledOnLock = false;
@@ -74,10 +75,11 @@ public class BlueTeleop extends OpMode {
         rightBackDrive.setZeroPowerBehavior(BRAKE);
         intake.setZeroPowerBehavior(BRAKE);
         rightFeeder.setZeroPowerBehavior(BRAKE);
+        launcherLeft.setZeroPowerBehavior(BRAKE);
+        launcherRight.setZeroPowerBehavior(BRAKE);
 
         launcherRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launcherLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        PIDFCoefficients coeffs = new PIDFCoefficients(60, 0, 0, 12);
         launcherRight.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
         launcherLeft.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, coeffs);
 
@@ -99,9 +101,11 @@ public class BlueTeleop extends OpMode {
         telemetry.addData("Aimed", limelightAimed == 1 ? "LOCKED" : limelightAimed == 2 ? "TRACKING" : "NO TARGET");
         telemetry.addData(
                 "Launcher At Speed",
-                Math.abs(launcherRight.getVelocity() - launcherTargetVelocity)
-                        < VELOCITY_TOLERANCE
-        );        telemetry.update();
+                Math.abs(launcherRight.getVelocity() - launcherTargetVelocity) < VELOCITY_TOLERANCE
+        );
+        telemetry.addData("Launch State", launchState);
+        telemetry.addData("Target Velocity", launcherTargetVelocity);
+        telemetry.addData("Actual Velocity", launcherRight.getVelocity());
 
         // ===== DRIVE CONTROL =====
         if (gamepad2.right_bumper) {
@@ -137,12 +141,16 @@ public class BlueTeleop extends OpMode {
                 if (Math.abs(launcherRight.getVelocity() - launcherTargetVelocity) < VELOCITY_TOLERANCE) {
                     launchState = LaunchState.LAUNCH;
                 }
-                if (gamepad1.b) launchState = LaunchState.IDLE;
+                // Only cancel if b is freshly pressed (avoid accidental cancel)
+                if (gamepad1.b && !gamepad1.y && !gamepad1.x) {
+                    setLauncherVelocity(-1000);
+                    launchState = LaunchState.IDLE;
+                }
                 break;
 
             case LAUNCH:
                 setLauncherVelocity(launcherTargetVelocity);
-                if (gamepad1.b) {
+                if (gamepad1.b && !gamepad1.y && !gamepad1.x) {
                     rightFeeder.setPower(0);
                     launchState = LaunchState.IDLE;
                 }
@@ -154,24 +162,37 @@ public class BlueTeleop extends OpMode {
         boolean lt = gamepad1.left_trigger > 0.1;
         if (lb && !lastLB) {
             launcherTargetVelocity = Math.min(launcherTargetVelocity + LAUNCHER_STEP, LAUNCHER_MAX_VELOCITY);
-            setLauncherVelocity(launcherTargetVelocity);
+            if (launchState != LaunchState.IDLE) setLauncherVelocity(launcherTargetVelocity);
         }
         if (lt && !lastLT) {
             launcherTargetVelocity = Math.max(launcherTargetVelocity - LAUNCHER_STEP, LAUNCHER_MIN_ADJUST);
-            setLauncherVelocity(launcherTargetVelocity);
+            if (launchState != LaunchState.IDLE) setLauncherVelocity(launcherTargetVelocity);
         }
         lastLB = lb;
         lastLT = lt;
 
         // ===== FEEDER =====
-        if (gamepad1.right_bumper) {
-            rightFeeder.setPower(0.75);
-        } else if (Math.abs(gamepad1.left_stick_y) > 0.1 || Math.abs(gamepad1.left_stick_x) > 0.1) {
-            rightFeeder.setPower(-0.55);
-        } else if (gamepad1.right_trigger > 0.1) {
-            rightFeeder.setPower(1);
-        } else {
-            rightFeeder.setPower(0);
+        if (launchState == LaunchState.LAUNCH) {
+            if (gamepad1.right_bumper) {
+                rightFeeder.setPower(0.75);
+            } else if (Math.abs(gamepad1.left_stick_y) > 0.1 || Math.abs(gamepad1.left_stick_x) > 0.1) {
+                rightFeeder.setPower(-0.55);
+            } else if (gamepad1.right_trigger > 0.1) {
+                rightFeeder.setPower(1);
+            } else {
+                rightFeeder.setPower(0);
+            }
+        } else if (launchState == LaunchState.IDLE) {
+            // Still allow manual feeder control even when launcher is off
+            if (gamepad1.right_bumper) {
+                rightFeeder.setPower(0.75);
+            } else if (Math.abs(gamepad1.left_stick_y) > 0.1 || Math.abs(gamepad1.left_stick_x) > 0.1) {
+                rightFeeder.setPower(-0.55);
+            } else if (gamepad1.right_trigger > 0.1) {
+                rightFeeder.setPower(1);
+            } else {
+                rightFeeder.setPower(0);
+            }
         }
 
         // ===== INTAKE =====
@@ -179,11 +200,12 @@ public class BlueTeleop extends OpMode {
 
         // ===== LIGHT (priority: launcher on > limelight locked > limelight tracking > idle) =====
         boolean launcherOn = launchState == LaunchState.SPIN_UP || launchState == LaunchState.LAUNCH;
-        if (launcherOn)               light.setPosition(RED);
-        else if (limelightAimed == 1) light.setPosition(GREEN);
-        else if (limelightAimed == 2) light.setPosition(ORANGE);
-        else                          light.setPosition(WHITE);
+        if (launcherOn)               light.setPosition(red);
+        else if (limelightAimed == 1) light.setPosition(green);
+        else if (limelightAimed == 2) light.setPosition(orange);
+        else                          light.setPosition(white);
 
+        // Single telemetry update at the end of loop
         telemetry.update();
     }
 

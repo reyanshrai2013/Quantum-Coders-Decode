@@ -14,7 +14,7 @@ import com.qualcomm.hardware.limelightvision.Limelight3A;
 import com.qualcomm.robotcore.hardware.Servo;
 
 
-@TeleOp(name = "RED SIDE TELEOP", group = "StarterBot")
+@TeleOp(name = "RED SIDE TELEOP", group = "Teleop")
 public class RedTeleop extends OpMode {
 
     final double LAUNCHER_TARGET_VELOCITY = 1200;
@@ -75,6 +75,8 @@ public class RedTeleop extends OpMode {
         rightBackDrive.setZeroPowerBehavior(BRAKE);
         intake.setZeroPowerBehavior(BRAKE);
         rightFeeder.setZeroPowerBehavior(BRAKE);
+        launcherLeft.setZeroPowerBehavior(BRAKE);
+        launcherRight.setZeroPowerBehavior(BRAKE);
 
         launcherRight.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         launcherLeft.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -141,6 +143,7 @@ public class RedTeleop extends OpMode {
                 }
                 // Only cancel if b is freshly pressed (avoid accidental cancel)
                 if (gamepad1.b && !gamepad1.y && !gamepad1.x) {
+                    setLauncherVelocity(-1000);
                     launchState = LaunchState.IDLE;
                 }
                 break;
