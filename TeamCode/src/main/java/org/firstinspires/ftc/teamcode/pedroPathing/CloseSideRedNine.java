@@ -1,5 +1,7 @@
 package org.firstinspires.ftc.teamcode.pedroPathing;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.Importantthingsithasrizztrust.LauncherPIDF.coeffs;
+
 import com.bylazar.configurables.annotations.Configurable;
 import com.bylazar.telemetry.PanelsTelemetry;
 import com.bylazar.telemetry.TelemetryManager;
@@ -43,8 +45,6 @@ public class CloseSideRedNine extends OpMode {
         launcher.setDirection(DcMotorEx.Direction.REVERSE);
         launcher2.setDirection(DcMotorEx.Direction.FORWARD);       // ADDED
         feed.setDirection(DcMotorEx.Direction.REVERSE);
-
-        PIDFCoefficients coeffs = new PIDFCoefficients(60, 0, 0, 12);
 
         launcher.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, coeffs);
         launcher2.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, coeffs);   // ADDED
