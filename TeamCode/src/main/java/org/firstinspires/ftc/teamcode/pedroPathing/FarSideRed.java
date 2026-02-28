@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.pedroPathing;
 
 import static com.qualcomm.robotcore.hardware.DcMotor.ZeroPowerBehavior.BRAKE;
 
+import static org.firstinspires.ftc.teamcode.pedroPathing.Importantthingsithasrizztrust.LauncherPIDF.coeffs;
+
 import com.pedropathing.follower.Follower;
 import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
@@ -14,8 +16,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 
 @Autonomous(name = "RED FAR SIDE", group = "Autonomous")
@@ -48,11 +48,10 @@ public class FarSideRed extends OpMode {
 
     // Aiming constants
     private static final double ROTATION_KP        = 0.05;
-    private static final double TARGET_TOLERANCE   = 1.5;  // tightened: was 2.0
-    private static final double MIN_ROTATION_POWER = 0.13; // lowered: less overshoot
-    private static final double MAX_ROTATION_POWER = 0.4;  // lowered: more accurate
-    private static final long   AIM_TIMEOUT_MS     = 2500; // slightly more time to settle
-    // Must stay on-target this many consecutive loops before declaring locked
+    private static final double TARGET_TOLERANCE   = 1.5;
+    private static final double MIN_ROTATION_POWER = 0.13;
+    private static final double MAX_ROTATION_POWER = 0.4;
+    private static final long   AIM_TIMEOUT_MS     = 2500;
     private static final int    LOCK_CONFIRM_COUNT = 5;
 
     // Aiming state
@@ -99,12 +98,9 @@ public class FarSideRed extends OpMode {
         launcherRight.setZeroPowerBehavior(BRAKE);
         launcherLeft.setZeroPowerBehavior(BRAKE);
 
-        launcherRight.setPIDFCoefficients(
-                DcMotor.RunMode.RUN_USING_ENCODER,
-                new PIDFCoefficients(200, 0, 0, 12.1));
-        launcherLeft.setPIDFCoefficients(
-                DcMotor.RunMode.RUN_USING_ENCODER,
-                new PIDFCoefficients(200, 0, 0, 12.1));
+        launcherRight.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, coeffs);
+        launcherLeft.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, coeffs);
+
         // ── Intake + feed ─────────────────────────────────────────────────────
         intake = hardwareMap.get(DcMotorEx.class, "intake");
         feed   = hardwareMap.get(DcMotorEx.class, "feed");
@@ -113,7 +109,7 @@ public class FarSideRed extends OpMode {
         intake.setZeroPowerBehavior(BRAKE);
         feed.setZeroPowerBehavior(BRAKE);
 
-        // ── Limelight — exactly as in working TeleOp ──────────────────────────
+        // ── Limelight ─────────────────────────────────────────────────────────
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100);
         limelight.pipelineSwitch(0);
@@ -153,6 +149,7 @@ public class FarSideRed extends OpMode {
             // ── 0: drive to first shooting position ───────────────────────────
             case 0:
                 if (!pathStarted) {
+                    setLauncherVelocity(1460);
                     follower.followPath(paths.Path1, true);
                     pathStarted = true;
                 }
@@ -167,8 +164,7 @@ public class FarSideRed extends OpMode {
             // ── 1: first shot ─────────────────────────────────────────────────
             case 1:
                 if (!pathStarted) {
-                    follower.breakFollowing(); // stop Pedro fighting the aiming rotation
-                    setLauncherVelocity(1460);
+                    follower.breakFollowing();
                     launcherStartTime = System.currentTimeMillis();
                     startAim();
                     pathStarted = true;
@@ -176,7 +172,7 @@ public class FarSideRed extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >= 1600
+                if (System.currentTimeMillis() - launcherStartTime >= 50
                         && (aimDone || noTarget())) {
                     feed.setPower(1);
                     intake.setPower(1.0);
@@ -211,7 +207,7 @@ public class FarSideRed extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1500);
+                    setLauncherVelocity(1460);
                     follower.followPath(paths.Path4, true);
                     pathStarted = true;
                 }
@@ -243,7 +239,7 @@ public class FarSideRed extends OpMode {
             // ── 5: second shot ────────────────────────────────────────────────
             case 5:
                 if (!pathStarted) {
-                    follower.breakFollowing(); // stop Pedro fighting the aiming rotation
+                    follower.breakFollowing();
                     setLauncherVelocity(1460);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime     = System.currentTimeMillis();
@@ -254,7 +250,7 @@ public class FarSideRed extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >=750
+                if (System.currentTimeMillis() - launcherStartTime >= 50
                         && feed.getPower() == 0
                         && (aimDone || noTarget())) {
                     feed.setPower(1);
@@ -336,7 +332,7 @@ public class FarSideRed extends OpMode {
             // ── 9: third shot ─────────────────────────────────────────────────
             case 9:
                 if (!pathStarted) {
-                    follower.breakFollowing(); // stop Pedro fighting the aiming rotation
+                    follower.breakFollowing();
                     setLauncherVelocity(1500);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime     = System.currentTimeMillis();
@@ -347,7 +343,7 @@ public class FarSideRed extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >= 1600
+                if (System.currentTimeMillis() - launcherStartTime >= 50
                         && feed.getPower() == 0
                         && (aimDone || noTarget())) {
                     feed.setPower(1);
@@ -366,8 +362,100 @@ public class FarSideRed extends OpMode {
                 }
                 break;
 
-            // ── 10: park ──────────────────────────────────────────────────────
+            // ── 10: sweep to third ball stack (first pass) ────────────────────
             case 10:
+                if (!pathStarted) {
+                    intake.setPower(0.8);
+                    feed.setPower(0.25);
+                    setLauncherVelocity(-700);
+                    follower.followPath(paths.Path10a, true);
+                    pathStarted = true;
+                }
+                if (!follower.isBusy()) {
+                    intake.setPower(0);
+                    feed.setPower(0);
+                    setLauncherVelocity(0);
+                    waitStartTime = System.currentTimeMillis();
+                    waitStarted   = true;
+                    pathStarted   = false;
+                    pathState     = 11;
+                }
+                break;
+
+            // ── 11: sweep third ball stack (second pass) ──────────────────────
+            case 11:
+                if (!pathStarted) {
+                    intake.setPower(1);
+                    feed.setPower(0.25);
+                    setLauncherVelocity(-700);
+                    follower.followPath(paths.Path10b, true);
+                    pathStarted = true;
+                }
+                if (!follower.isBusy()) {
+                    intake.setPower(0);
+                    feed.setPower(0);
+                    setLauncherVelocity(0);
+                    waitStartTime = System.currentTimeMillis();
+                    waitStarted   = true;
+                    pathStarted   = false;
+                    pathState     = 12;
+                }
+                break;
+
+            // ── 12: return to shoot ───────────────────────────────────────────
+            case 12:
+                if (!pathStarted) {
+                    intake.setPower(1);
+                    feed.setPower(0.25);
+                    setLauncherVelocity(-700);
+                    follower.followPath(paths.Path10c, true);
+                    pathStarted = true;
+                }
+                if (!follower.isBusy()) {
+                    intake.setPower(0);
+                    feed.setPower(0);
+                    setLauncherVelocity(0);
+                    waitStartTime = System.currentTimeMillis();
+                    waitStarted   = true;
+                    pathStarted   = false;
+                    pathState     = 13;
+                }
+                break;
+
+            // ── 13: fourth shot ───────────────────────────────────────────────
+            case 13:
+                if (!pathStarted) {
+                    follower.breakFollowing();
+                    setLauncherVelocity(1500);
+                    launcherStartTime = System.currentTimeMillis();
+                    waitStartTime     = System.currentTimeMillis();
+                    startAim();
+                    waitStarted = true;
+                    pathStarted = true;
+                }
+
+                runAimingLoop();
+
+                if (System.currentTimeMillis() - launcherStartTime >= 50
+                        && feed.getPower() == 0
+                        && (aimDone || noTarget())) {
+                    feed.setPower(1.0);
+                    intake.setPower(1.0);
+                }
+
+                if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait2) {
+                    setLauncherVelocity(0);
+                    feed.setPower(0);
+                    intake.setPower(0);
+                    resetAim();
+                    waitStarted = false;
+                    pathStarted = false;
+                    pathState   = 14;
+                }
+                break;
+
+            // ── 14: park ──────────────────────────────────────────────────────
+            case 14:
                 if (!pathStarted) {
                     intake.setPower(0);
                     feed.setPower(0);
@@ -379,20 +467,18 @@ public class FarSideRed extends OpMode {
                     intake.setPower(0);
                     setLauncherVelocity(0);
                     pathStarted = false;
-                    pathState   = 11;
+                    pathState   = 15;
                 }
                 break;
         }
     }
 
     // =========================================================================
-    // AIMING — direct port of autoTrackAprilTag() from working TeleOp
-    //          + confirmation counter to prevent locking on a single noisy frame
+    // AIMING
     // =========================================================================
     private void runAimingLoop() {
         if (!aimingStarted || aimDone) return;
 
-        // Hard timeout — give up and fire anyway
         if (System.currentTimeMillis() - aimStartTime >= AIM_TIMEOUT_MS) {
             mecanumDrive(0, 0, 0);
             aimDone       = true;
@@ -403,38 +489,30 @@ public class FarSideRed extends OpMode {
         LLResult result = limelight.getLatestResult();
 
         if (result != null && result.isValid()) {
-            double tx = result.getTx(); // horizontal offset in degrees
+            double tx = result.getTx();
 
             if (Math.abs(tx) < TARGET_TOLERANCE) {
-                // Must stay on-target LOCK_CONFIRM_COUNT loops in a row before locking.
-                // Prevents firing immediately on a single noisy reading.
                 lockConfirmLoop++;
-                mecanumDrive(0, 0, 0); // hold still while confirming
+                mecanumDrive(0, 0, 0);
                 if (lockConfirmLoop >= LOCK_CONFIRM_COUNT) {
                     aimDone       = true;
                     aimingStarted = false;
                 }
             } else {
-                // Off target — reset confirmation counter and keep rotating
                 lockConfirmLoop = 0;
-
                 double rot = tx * ROTATION_KP;
                 if (Math.abs(rot) < MIN_ROTATION_POWER) {
                     rot = Math.signum(rot) * MIN_ROTATION_POWER;
                 }
                 rot = Math.max(-MAX_ROTATION_POWER, Math.min(MAX_ROTATION_POWER, rot));
-
                 mecanumDrive(0, 0, rot);
             }
         } else {
-            // No target — hold still (robot is near target from path ending;
-            // spinning to search was causing the progressive drift between shots)
             lockConfirmLoop = 0;
             mecanumDrive(0, 0, 0);
         }
     }
 
-    // ── Aiming helpers ────────────────────────────────────────────────────────
     private void startAim() {
         aimingStarted   = true;
         aimDone         = false;
@@ -471,11 +549,15 @@ public class FarSideRed extends OpMode {
     public static class Paths {
 
         public PathChain Path1, Path3, Path4, Path5, Path7, Path8, Path9, Path11;
-        public double Wait2 = 1750;
+        // Third ball stack sweep paths (ported from NoSpike)
+        public PathChain Path10a, Path10b, Path10c;
+
+        public double Wait2 = 3750;
         public double Wait3 = 3750;
 
-
         public Paths(Follower follower) {
+
+            // ── Original FarSideRed paths (unchanged) ─────────────────────────
 
             Path1 = follower.pathBuilder()
                     .addPath(new BezierLine(
@@ -531,6 +613,31 @@ public class FarSideRed extends OpMode {
                             new Pose(144 - 59, 16.773),
                             new Pose(84.551724137931, 37.06502463054187)))
                     .setLinearHeadingInterpolation(Math.toRadians(88), Math.toRadians(-20))
+                    .build();
+
+            // ── Third ball stack sweep paths (ported from NoSpike) ────────────
+            // Path10a: shooting position → start of third stack sweep
+            Path10a = follower.pathBuilder()
+                    .addPath(new BezierLine(
+                            new Pose(144 - 59, 16.773),
+                            new Pose(144 - 41.458, 12.217)))
+                    .setLinearHeadingInterpolation(Math.toRadians(83), Math.toRadians(-20))
+                    .build();
+
+            // Path10b: sweep across the third ball stack
+            Path10b = follower.pathBuilder()
+                    .addPath(new BezierLine(
+                            new Pose(144 - 41.458, 12.217),
+                            new Pose(144 - 10.214, 12.217)))
+                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(-20))
+                    .build();
+
+            // Path10c: return to shooting position
+            Path10c = follower.pathBuilder()
+                    .addPath(new BezierLine(
+                            new Pose(144 - 10.214, 12.217),
+                            new Pose(144 - 59, 19.773)))
+                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(83))
                     .build();
         }
     }
