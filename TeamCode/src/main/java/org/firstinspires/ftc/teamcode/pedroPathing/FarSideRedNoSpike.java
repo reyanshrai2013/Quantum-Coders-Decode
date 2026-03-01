@@ -37,6 +37,10 @@ public class FarSideRedNoSpike extends OpMode {
     private long launcherStartTime = 0;
     private boolean waitStarted    = false;
 
+    // ── Failsafe ──────────────────────────────────────────────────────────────
+    private long    pathStartTime      = 0;
+    private static final long FAILSAFE_MS = 2000;
+
     // ── Motors ────────────────────────────────────────────────────────────────
     private DcMotorEx launcherRight = null;
     private DcMotorEx launcherLeft  = null;
@@ -56,7 +60,7 @@ public class FarSideRedNoSpike extends OpMode {
     private static final double TARGET_TOLERANCE   = 1.5;
     private static final double MIN_ROTATION_POWER = 0.13;
     private static final double MAX_ROTATION_POWER = 0.4;
-    private static final long   AIM_TIMEOUT_MS     = 2500;
+    private static final long   AIM_TIMEOUT_MS     = 3500;
     private static final int    LOCK_CONFIRM_COUNT = 5;
 
     // Aiming state
@@ -155,7 +159,7 @@ public class FarSideRedNoSpike extends OpMode {
 
             case 0:
                 if (!pathStarted) {
-                    setLauncherVelocity(1460);
+                    setLauncherVelocity(1430);
                     follower.followPath(paths.Path1, true);
                     pathStarted = true;
                 }
@@ -170,7 +174,7 @@ public class FarSideRedNoSpike extends OpMode {
             case 1:
                 if (!pathStarted) {
                     follower.breakFollowing();
-                    setLauncherVelocity(1460);
+                    setLauncherVelocity(1430);
                     launcherStartTime = System.currentTimeMillis();
                     startAim();
                     pathStarted = true;
@@ -178,7 +182,7 @@ public class FarSideRedNoSpike extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >= 1600
+                if (System.currentTimeMillis() - launcherStartTime >= 1250
                         && (aimDone || noTarget())) {
                     feed.setPower(1.0);
                     intake.setPower(1.0);
@@ -196,6 +200,7 @@ public class FarSideRedNoSpike extends OpMode {
 
             case 2:
                 if (!pathStarted) {
+                    setLauncherVelocity(1460);
                     intake.setPower(1);
                     feed.setPower(0);
                     follower.followPath(paths.Path3, true);
@@ -215,9 +220,12 @@ public class FarSideRedNoSpike extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     follower.followPath(paths.Path4, true);
-                    pathStarted = true;
+                    pathStartTime = System.currentTimeMillis();
+                    pathStarted   = true;
                 }
-                if (!follower.isBusy()) {
+                if (!follower.isBusy()
+                        || System.currentTimeMillis() - pathStartTime >= FAILSAFE_MS) {
+                    follower.breakFollowing();
                     intake.setPower(0);
                     feed.setPower(0);
                     waitStartTime = System.currentTimeMillis();
@@ -256,7 +264,7 @@ public class FarSideRedNoSpike extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >= 750
+                if (System.currentTimeMillis() - launcherStartTime >= 1200
                         && feed.getPower() == 0
                         && (aimDone || noTarget())) {
                     feed.setPower(1.0);
@@ -295,9 +303,12 @@ public class FarSideRedNoSpike extends OpMode {
                     intake.setPower(1);
                     feed.setPower(0);
                     follower.followPath(paths.Path8, true);
-                    pathStarted = true;
+                    pathStartTime = System.currentTimeMillis(); // failsafe clock starts
+                    pathStarted   = true;
                 }
-                if (!follower.isBusy()) {
+                if (!follower.isBusy()
+                        || System.currentTimeMillis() - pathStartTime >= FAILSAFE_MS) {
+                    follower.breakFollowing();                  // stop if failsafe triggered
                     intake.setPower(0);
                     feed.setPower(0);
                     waitStartTime = System.currentTimeMillis();
@@ -336,7 +347,7 @@ public class FarSideRedNoSpike extends OpMode {
 
                 runAimingLoop();
 
-                if (System.currentTimeMillis() - launcherStartTime >= 1600
+                if (System.currentTimeMillis() - launcherStartTime >= 700
                         && feed.getPower() == 0
                         && (aimDone || noTarget())) {
                     feed.setPower(1.0);
@@ -377,9 +388,12 @@ public class FarSideRedNoSpike extends OpMode {
                     intake.setPower(1);
                     feed.setPower(0);
                     follower.followPath(paths.Path13, true);
-                    pathStarted = true;
+                    pathStartTime = System.currentTimeMillis(); // failsafe clock starts
+                    pathStarted   = true;
                 }
-                if (!follower.isBusy()) {
+                if (!follower.isBusy()
+                        || System.currentTimeMillis() - pathStartTime >= FAILSAFE_MS) {
+                    follower.breakFollowing();                  // stop if failsafe triggered
                     intake.setPower(0);
                     feed.setPower(0);
                     waitStartTime = System.currentTimeMillis();
@@ -388,13 +402,72 @@ public class FarSideRedNoSpike extends OpMode {
                     pathState     = 12;
                 }
                 break;
+
             case 12:
-            {
+                if (!pathStarted) {
+                    intake.setPower(1);
+                    feed.setPower(0);
+                    follower.followPath(paths.Path14, true);
+                    pathStarted = true;
+                }
+                if (!follower.isBusy()) {
+                    intake.setPower(0);
+                    feed.setPower(0);
+                    waitStartTime = System.currentTimeMillis();
+                    waitStarted   = true;
+                    pathStarted   = false;
                     pathState     = 13;
                 }
                 break;
 
+            // ── 4th shoot ─────────────────────────────────────────────────────
 
+            case 13:
+                if (!pathStarted) {
+                    follower.breakFollowing();
+                    launcherStartTime = System.currentTimeMillis();
+                    waitStartTime     = System.currentTimeMillis();
+                    startAim();
+                    waitStarted = true;
+                    pathStarted = true;
+                }
+
+                runAimingLoop();
+
+                if (System.currentTimeMillis() - launcherStartTime >= 700
+                        && feed.getPower() == 0
+                        && (aimDone || noTarget())) {
+                    feed.setPower(1.0);
+                    intake.setPower(1.0);
+                }
+
+                if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait2) {
+                    setLauncherVelocity(0);
+                    feed.setPower(0);
+                    intake.setPower(0);
+                    resetAim();
+                    waitStarted = false;
+                    pathStarted = false;
+                    pathState   = 14;
+                }
+                break;
+
+            // ── Park ──────────────────────────────────────────────────────────
+
+            case 14:
+                if (!pathStarted) {
+                    intake.setPower(0);
+                    feed.setPower(0);
+                    follower.followPath(paths.Path11, true);
+                    pathStarted = true;
+                }
+                if (!follower.isBusy()) {
+                    intake.setPower(0);
+                    setLauncherVelocity(0);
+                    pathStarted = false;
+                    pathState   = 15;
+                }
+                break;
         }
     }
 
@@ -475,7 +548,12 @@ public class FarSideRedNoSpike extends OpMode {
 
         public PathChain Path1, Path3, Path4, Path5, Path7, Path8, Path9, Path11,
                 Path12, Path13, Path14;
-        public double Wait2 = 3750;
+        public double Wait2 = 2050;
+
+        public long LauncherSpeedUp = 750;
+
+
+
 
         public Paths(Follower follower) {
 
@@ -535,7 +613,6 @@ public class FarSideRedNoSpike extends OpMode {
                     .setLinearHeadingInterpolation(Math.toRadians(88), Math.toRadians(-20))
                     .build();
 
-            // ── 4th cycle paths (mirrors Path7 / Path8 / Path9) ──────────────
 
             Path12 = follower.pathBuilder()
                     .addPath(new BezierLine(
