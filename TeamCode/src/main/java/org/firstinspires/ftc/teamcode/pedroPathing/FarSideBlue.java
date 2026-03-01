@@ -113,7 +113,7 @@ public class FarSideBlue extends OpMode {
         // ── Limelight ─────────────────────────────────────────────────────────
         limelight = hardwareMap.get(Limelight3A.class, "limelight");
         limelight.setPollRateHz(100);
-        limelight.pipelineSwitch(0);
+        limelight.pipelineSwitch(1);
         limelight.start();
 
         telemetry.addData("Status", "Initialized");
@@ -286,17 +286,12 @@ public class FarSideBlue extends OpMode {
                     waitStartTime = System.currentTimeMillis();
                     waitStarted   = true;
                     pathStarted   = false;
-                    pathState     = 67;
+                    pathState     = 7;
                 }
                 break;
 
             // ── 67: wait after swing ──────────────────────────────────────────
-            case 67:
-                if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait4) {
-                    waitStarted = false;
-                    pathState   = 7;
-                }
-                break;
+
 
             // ── 7: sweep second ball stack ────────────────────────────────────
             case 7:
@@ -317,6 +312,8 @@ public class FarSideBlue extends OpMode {
                     pathState     = 8;
                 }
                 break;
+
+
 
             // ── 8: return to shoot ────────────────────────────────────────────
             case 8:
@@ -626,7 +623,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 41.458, 144 - 8.217),
                             new Pose(144 - 10.214, 144 - 6.217)))
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(3))
                     .build();
 
             // ── Path9: return to shooting position ────────────────────────────
