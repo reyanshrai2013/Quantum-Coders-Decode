@@ -84,11 +84,11 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 0:
                 if (!pathStarted) {
-                    setLauncherVelocity(1070);
-                    follower.followPath(paths.startToShoot, true);
+                    setLauncherVelocity(1090);
+                    follower.followPath(paths.startToShoot, 0.6, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     waitStartTime = System.currentTimeMillis();
                     waitStarted = true;
                     pathStarted = false;
@@ -98,7 +98,8 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 1:
                 if (!pathStarted) {
-                    setLauncherVelocity(1125);
+                    follower.breakFollowing();
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     pathStarted = true;
                 }
@@ -109,7 +110,6 @@ public class CloseSideRedTwelve extends OpMode {
                 }
 
                 if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait1) {
-                    setLauncherVelocity(1070);
                     feed.setPower(0);
                     intake.setPower(0);
                     waitStarted = false;
@@ -126,10 +126,10 @@ public class CloseSideRedTwelve extends OpMode {
                     follower.followPath(paths.shootToFirstInkate, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(-0.2);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 4;
                 }
@@ -141,7 +141,7 @@ public class CloseSideRedTwelve extends OpMode {
                     follower.followPath(paths.firstIntakeToGate, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(1);
                     pathStarted = false;
                     pathState = 5;
@@ -152,14 +152,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.gateToShoot, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 6;
                 }
@@ -167,7 +167,7 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 6:
                 if (!pathStarted) {
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime = System.currentTimeMillis();
                     pathStarted = true;
@@ -180,7 +180,7 @@ public class CloseSideRedTwelve extends OpMode {
                 }
 
                 if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait1) {
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     feed.setPower(0);
                     intake.setPower(0);
                     waitStarted = false;
@@ -193,14 +193,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.Path7, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 8;
                 }
@@ -210,14 +210,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.Path7ToSecondIntake, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 85;
                 }
@@ -227,14 +227,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(0.5);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.SecondIntaketoGate, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 9;
                 }
@@ -244,14 +244,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.GateToShoot, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 10;
                 }
@@ -259,7 +259,7 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 10:
                 if (!pathStarted) {
-                    setLauncherVelocity(1070);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime = System.currentTimeMillis();
                     pathStarted = true;
@@ -267,7 +267,7 @@ public class CloseSideRedTwelve extends OpMode {
                 }
 
                 if (System.currentTimeMillis() - launcherStartTime >= 50 && feed.getPower() == 0) {
-                    feed.setPower(1);
+                    feed.setPower(0.75);
                     intake.setPower(1.0);
                 }
 
@@ -285,14 +285,14 @@ public class CloseSideRedTwelve extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1.0);
                     feed.setPower(0);
-                    setLauncherVelocity(1100);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.shootToThirdIntake, true);
                     pathStarted = true;
                 }
-                if (pathStarted && !follower.isBusy()) {
+                if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1150);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 13;
                 }
@@ -302,7 +302,7 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 13:
                 if (!pathStarted) {
-                    setLauncherVelocity(1100);
+                    setLauncherVelocity(1090);
                     feed.setPower(0);
                     intake.setPower(0);
                     waitStartTime = System.currentTimeMillis();
@@ -310,8 +310,8 @@ public class CloseSideRedTwelve extends OpMode {
                     waitStarted = true;
                 }
 
-                if (pathStarted && !follower.isBusy()) {
-                    setLauncherVelocity(1100);
+                if (!follower.isBusy()) {
+                    setLauncherVelocity(1090);
                     feed.setPower(0);
                     intake.setPower(0);
                     waitStarted = false;
@@ -322,7 +322,7 @@ public class CloseSideRedTwelve extends OpMode {
 
             case 15:
                 if (!pathStarted) {
-                    setLauncherVelocity(1100);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime = System.currentTimeMillis();
                     pathStarted = true;
@@ -386,7 +386,7 @@ public class CloseSideRedTwelve extends OpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(125.6945320197044, 122.38384729064042),
-                                    new Pose(96.84280662983427, 96.77033149171271)
+                                    new Pose(93.84280662983427, 83.833)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(45))
@@ -396,8 +396,8 @@ public class CloseSideRedTwelve extends OpMode {
             shootToFirstInkate = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(85.970, 82.833),
-                                    new Pose(132.19211822660097, 82.84236453201973)
+                                    new Pose(93.84280662983427, 83.833),
+                                    new Pose(132.19211822660097, 84.84236453201973)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -417,7 +417,7 @@ public class CloseSideRedTwelve extends OpMode {
             gateToShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(128.547, 72.621),
+                                    new Pose(132.547, 72.621),
                                     new Pose(96.8, 96.77)
                             )
                     )
@@ -427,7 +427,7 @@ public class CloseSideRedTwelve extends OpMode {
             Path7 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(85.675, 85.611),
+                                    new Pose(96.8, 96.77),
                                     new Pose(100.419, 58.596)
                             )
                     )
@@ -457,8 +457,8 @@ public class CloseSideRedTwelve extends OpMode {
             GateToShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(127.274, 70.118),
-                                    new Pose(96.8, 96.77033149171271)
+                                    new Pose(131.274, 70.118),
+                                    new Pose(96.8, 86.030)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(41))
@@ -467,7 +467,7 @@ public class CloseSideRedTwelve extends OpMode {
             shootToThirdIntake = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(85.108, 86.030),
+                                    new Pose(96.8, 86.030),
                                     new Pose(65.505, 24.728),
                                     new Pose(136.025, 32.306)
                             )

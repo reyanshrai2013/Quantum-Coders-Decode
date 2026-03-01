@@ -576,13 +576,13 @@ public class FarSideRed extends OpMode {
             Path4 = follower.pathBuilder()
                     .addPath(new BezierLine(
                             new Pose(144 - 49.0681502, 35.4492350),
-                            new Pose(144 - 10.11307371349096, 35.64951321)))
+                            new Pose(144 - 8.11307371349096, 35.64951321)))
                     .setLinearHeadingInterpolation(Math.toRadians(-3), Math.toRadians(0))
                     .build();
 
             Path5 = follower.pathBuilder()
                     .addPath(new BezierLine(
-                            new Pose(144 - 10.11307371349096, 35.64951321),
+                            new Pose(144 - 8.11307371349096, 35.64951321),
                             new Pose(144 - 58.6828929, 21.22253129)))
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(69))
                     .build();

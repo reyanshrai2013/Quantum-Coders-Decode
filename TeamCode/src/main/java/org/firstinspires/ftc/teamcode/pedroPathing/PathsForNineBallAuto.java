@@ -31,17 +31,17 @@ public  class PathsForNineBallAuto {
                     .addPath(
                             new BezierLine(
                                     new Pose(125.6945320197044, 122.38384729064042),
-                                    new Pose(96.84280662983427, 96.77033149171271)
+                                    new Pose(93.84280662983427, 85)
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(42))
+                    .setLinearHeadingInterpolation(Math.toRadians(36), Math.toRadians(45))
                     .build();
 
             shootToFirstInkate = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(85.970, 82.833),
-                                    new Pose(132.19211822660097, 82.84236453201973)
+                                    new Pose(93.84280662983427, 85),
+                                    new Pose(132.19211822660097, 84.84236453201973)
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
@@ -61,7 +61,7 @@ public  class PathsForNineBallAuto {
             gateToShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(128.547, 72.621),
+                                    new Pose(132.547, 75.621),
                                     new Pose(96.8, 96.77)
                             )
                     )
@@ -71,7 +71,7 @@ public  class PathsForNineBallAuto {
             Path7 = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(85.675, 85.611),
+                                    new Pose(96.8, 96.77),
                                     new Pose(100.419, 58.596)
                             )
                     )
@@ -102,7 +102,7 @@ public  class PathsForNineBallAuto {
             GateToShoot = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(127.274, 70.118),
+                                    new Pose(131.274, 70.118),
                                     new Pose(96.8, 96.77033149171271)
                             )
                     )

@@ -108,7 +108,7 @@ public class CloseSideRedNine extends OpMode {
 
             case 0:
                 if (!pathStarted) {
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.startToShoot, 0.6, true);
                     pathStarted = true;
                 }
@@ -120,21 +120,15 @@ public class CloseSideRedNine extends OpMode {
                 }
                 break;
 
-            // FIRST SHOT WITH LIMELIGHT AIM
             case 1:
                 if (!pathStarted) {
                     follower.breakFollowing();
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
-                    startAim();
                     pathStarted = true;
                 }
 
-                runAimingLoop();
-
-                if (System.currentTimeMillis() - launcherStartTime >= 500
-                        && feed.getPower() == 0
-                        && (aimDone || noTarget())) {
+                if (System.currentTimeMillis() - launcherStartTime >= 500 && feed.getPower() == 0) {
                     feed.setPower(1);
                     intake.setPower(1.0);
                 }
@@ -142,14 +136,12 @@ public class CloseSideRedNine extends OpMode {
                 if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait1) {
                     feed.setPower(0);
                     intake.setPower(0);
-                    resetAim();
                     waitStarted = false;
                     pathStarted = false;
                     pathState = 2;
                 }
                 break;
 
-            // ALL OTHER STATES UNCHANGED
             case 2:
                 if (!pathStarted) {
                     intake.setPower(1.0);
@@ -161,7 +153,7 @@ public class CloseSideRedNine extends OpMode {
                 if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(-0.2);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 4;
                 }
@@ -184,14 +176,14 @@ public class CloseSideRedNine extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.gateToShoot, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 6;
                 }
@@ -199,7 +191,7 @@ public class CloseSideRedNine extends OpMode {
 
             case 6:
                 if (!pathStarted) {
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime = System.currentTimeMillis();
                     pathStarted = true;
@@ -212,7 +204,7 @@ public class CloseSideRedNine extends OpMode {
                 }
 
                 if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait1) {
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     feed.setPower(0);
                     intake.setPower(0);
                     waitStarted = false;
@@ -225,14 +217,14 @@ public class CloseSideRedNine extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.Path7, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 8;
                 }
@@ -242,14 +234,14 @@ public class CloseSideRedNine extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.Path7ToSecondIntake, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 85;
                 }
@@ -259,14 +251,14 @@ public class CloseSideRedNine extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(0.5);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.SecondIntaketoGate, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 9;
                 }
@@ -276,14 +268,14 @@ public class CloseSideRedNine extends OpMode {
                 if (!pathStarted) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.GateToShoot, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 10;
                 }
@@ -291,7 +283,7 @@ public class CloseSideRedNine extends OpMode {
 
             case 10:
                 if (!pathStarted) {
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime = System.currentTimeMillis();
                     pathStarted = true;
@@ -315,16 +307,16 @@ public class CloseSideRedNine extends OpMode {
 
             case 11:
                 if (!pathStarted) {
-                    intake.setPower(1.0);
+                    intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     follower.followPath(paths.Path9, true);
                     pathStarted = true;
                 }
                 if (!follower.isBusy()) {
                     intake.setPower(1);
                     feed.setPower(0);
-                    setLauncherVelocity(1095);
+                    setLauncherVelocity(1090);
                     pathStarted = false;
                     pathState = 16;
                 }

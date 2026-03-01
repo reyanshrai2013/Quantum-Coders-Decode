@@ -388,72 +388,13 @@ public class FarSideRedNoSpike extends OpMode {
                     pathState     = 12;
                 }
                 break;
-
             case 12:
-                if (!pathStarted) {
-                    intake.setPower(1);
-                    feed.setPower(0);
-                    follower.followPath(paths.Path14, true);
-                    pathStarted = true;
-                }
-                if (!follower.isBusy()) {
-                    intake.setPower(0);
-                    feed.setPower(0);
-                    waitStartTime = System.currentTimeMillis();
-                    waitStarted   = true;
-                    pathStarted   = false;
+            {
                     pathState     = 13;
                 }
                 break;
 
-            // ── 4th shoot ─────────────────────────────────────────────────────
 
-            case 13:
-                if (!pathStarted) {
-                    follower.breakFollowing();
-                    launcherStartTime = System.currentTimeMillis();
-                    waitStartTime     = System.currentTimeMillis();
-                    startAim();
-                    waitStarted = true;
-                    pathStarted = true;
-                }
-
-                runAimingLoop();
-
-                if (System.currentTimeMillis() - launcherStartTime >= 1600
-                        && feed.getPower() == 0
-                        && (aimDone || noTarget())) {
-                    feed.setPower(1.0);
-                    intake.setPower(1.0);
-                }
-
-                if (waitStarted && System.currentTimeMillis() - waitStartTime >= paths.Wait2) {
-                    setLauncherVelocity(0);
-                    feed.setPower(0);
-                    intake.setPower(0);
-                    resetAim();
-                    waitStarted = false;
-                    pathStarted = false;
-                    pathState   = 14;
-                }
-                break;
-
-            // ── Park ──────────────────────────────────────────────────────────
-
-            case 14:
-                if (!pathStarted) {
-                    intake.setPower(0);
-                    feed.setPower(0);
-                    follower.followPath(paths.Path11, true);
-                    pathStarted = true;
-                }
-                if (!follower.isBusy()) {
-                    intake.setPower(0);
-                    setLauncherVelocity(0);
-                    pathStarted = false;
-                    pathState   = 15;
-                }
-                break;
         }
     }
 
