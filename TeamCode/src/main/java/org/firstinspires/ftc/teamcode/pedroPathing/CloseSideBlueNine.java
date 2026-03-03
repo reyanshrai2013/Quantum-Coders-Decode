@@ -17,14 +17,14 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@Autonomous(name = "CLOSE SIDE RED NINE", group = "Autonomous")
+@Autonomous(name = "CLOSE SIDE BLUE NINE", group = "Autonomous")
 @Configurable
-public class CloseSideRedNine extends OpMode {
+public class CloseSideBlueNine extends OpMode {
 
     private TelemetryManager panelsTelemetry;
     public Follower follower;
     private int pathState = 0;
-    private PathsForRedCloseNineBallAuto paths;
+    private PathsForBlueCloseNineBallAuto paths;
 
     private long waitStartTime = 0;
     private long launcherStartTime = 0;
@@ -87,8 +87,8 @@ public class CloseSideRedNine extends OpMode {
         panelsTelemetry = PanelsTelemetry.INSTANCE.getTelemetry();
 
         follower = Constants.createFollower(hardwareMap);
-        follower.setStartingPose(new Pose(125.6945320197044, 122.38384729064042, Math.toRadians(36)));
-        paths = new PathsForRedCloseNineBallAuto(follower);
+        follower.setStartingPose(new Pose(144-125.6945320197044, 122.38384729064042, Math.toRadians(180-36)));
+        paths = new PathsForBlueCloseNineBallAuto(follower);
     }
 
     private void setLauncherVelocity(double v) {

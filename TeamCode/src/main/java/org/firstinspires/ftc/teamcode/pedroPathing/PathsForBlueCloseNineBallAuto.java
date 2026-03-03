@@ -6,7 +6,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
-public class PathsForBlueCloseNineBallAuto {
+public  class PathsForBlueCloseNineBallAuto {
     public PathChain startToShoot;
     public PathChain shootToFirstInkate;
     public PathChain firstIntakeToGate;
@@ -27,25 +27,21 @@ public class PathsForBlueCloseNineBallAuto {
 
         Wait1 = 1750;
 
-        // ── startToShoot ─────────────────────────────────────────────────────
-        // Red start: (125.6945, 122.3838)  → Blue: (18.3055, 122.3838)
-        // Red end:   ( 96.8428,  96.7703)  → Blue: (47.1572,  96.7703)
-        // Headings: 36° → 144°,  42° → 138°
         startToShoot = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(18.3055, 122.38384729064042),
-                                new Pose( 47.1572, 96.77033149171271)
+                                new Pose(125.6945320197044, 122.38384729064042).mirror(),
+                                new Pose(95.84280662983427, 87).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(144), Math.toRadians(138))
+                .setLinearHeadingInterpolation(Math.toRadians(180-36), Math.toRadians(180-45))
                 .build();
 
         shootToFirstInkate = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(58.03, 82.833),
-                                new Pose(132.19211822660097, 82.84236453201973)
+                                new Pose(95.84280662983427, 87).mirror(),
+                                new Pose(132.19211822660097, 84.84236453201973).mirror()
                         )
                 )
                 .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
@@ -54,73 +50,73 @@ public class PathsForBlueCloseNineBallAuto {
         firstIntakeToGate = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Pose(132.19211822660097, 84.84236453201973),
-                                new Pose(108.685, 75.453),
-                                new Pose(132.547, 75.621)
+                                new Pose(132.19211822660097, 84.84236453201973).mirror(),
+                                new Pose(108.685, 75.453).mirror(),
+                                new Pose(130.547, 75.621).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         gateToShoot = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(128.547, 72.621),
-                                new Pose(96.8, 96.77)
+                                new Pose(130.547, 75.621).mirror(),
+                                new Pose(96.8, 96.77).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(31))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(131))
                 .build();
 
         Path7 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(85.675, 85.611),
-                                new Pose(100.419, 58.596)
+                                new Pose(96.8, 96.77).mirror(),
+                                new Pose(97.419, 58.596).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(38), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(131), Math.toRadians(180))
                 .build();
 
         Path7ToSecondIntake = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(100.419, 59.596),
-                                new Pose(141.99014778325125, 58.48768472906403)
+                                new Pose(97.419, 59.596).mirror(),
+                                new Pose(139.99014778325125, 58.48768472906403).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         SecondIntaketoGate = follower.pathBuilder()
                 .addPath(
                         new BezierCurve(
-                                new Pose(141.990, 58.488),
-                                new Pose(94.577, 55.557),
-                                new Pose(131.274, 70.118)
+                                new Pose(139.990, 58.488).mirror(),
+                                new Pose(94.577, 55.557).mirror(),
+                                new Pose(129.274, 72.618).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(0))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
                 .build();
 
         GateToShoot = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(127.274, 70.118),
-                                new Pose(96.8, 96.77033149171271)
+                                new Pose(129.274, 72.618).mirror(),
+                                new Pose(96.8, 96.77033149171271).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(38))
+                .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(131))
                 .build();
 
         Path9 = follower.pathBuilder()
                 .addPath(
                         new BezierLine(
-                                new Pose(96.8, 96.77033149171271),
-                                new Pose(88.227, 106.951)
+                                new Pose(96.8, 96.77033149171271).mirror(),
+                                new Pose(88.227, 106.951).mirror()
                         )
                 )
-                .setLinearHeadingInterpolation(Math.toRadians(41), Math.toRadians(-30))
+                .setLinearHeadingInterpolation(Math.toRadians(131), Math.toRadians(-120))
                 .build();
     }
 }

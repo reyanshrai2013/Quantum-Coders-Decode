@@ -6,7 +6,7 @@ import com.pedropathing.geometry.BezierLine;
 import com.pedropathing.geometry.Pose;
 import com.pedropathing.paths.PathChain;
 
-public  class PathsForNineBallAuto {
+public  class PathsForRedCloseNineBallAuto {
         public PathChain startToShoot;
         public PathChain shootToFirstInkate;
         public PathChain firstIntakeToGate;
@@ -23,7 +23,7 @@ public  class PathsForNineBallAuto {
         public double Wait1;
         public double Wait2;
 
-        public PathsForNineBallAuto(Follower follower) {
+        public PathsForRedCloseNineBallAuto(Follower follower) {
 
             Wait1 = 1750;
 
