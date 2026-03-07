@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@Autonomous(name = "CLOSE SIDE RED TWELVE", group = "Autonomous")
+@Autonomous(name = "CLOSE SIDE RED TWELVE", group = "CloseRed")
 @Configurable
 
 public class CloseSideRedTwelve extends OpMode {
@@ -70,12 +70,6 @@ public class CloseSideRedTwelve extends OpMode {
     public void loop() {
         follower.update();
         autonomousPathUpdate();
-
-        panelsTelemetry.debug("Path State", pathState);
-        panelsTelemetry.debug("X", follower.getPose().getX());
-        panelsTelemetry.debug("Y", follower.getPose().getY());
-        panelsTelemetry.debug("Heading", follower.getPose().getHeading());
-        panelsTelemetry.update(telemetry);
     }
 
     private void autonomousPathUpdate() {
