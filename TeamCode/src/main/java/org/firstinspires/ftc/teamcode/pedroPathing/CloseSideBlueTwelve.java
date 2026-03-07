@@ -13,9 +13,8 @@ import com.pedropathing.paths.PathChain;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
-@Autonomous(name = "CLOSE SIDE BLUE TWELVE", group = "Autonomous")
+@Autonomous(name = "CLOSE SIDE BLUE TWELVE", group = "CloseBlue")
 @Configurable
 
 public class CloseSideBlueTwelve extends OpMode {
@@ -71,12 +70,6 @@ public class CloseSideBlueTwelve extends OpMode {
     public void loop() {
         follower.update();
         autonomousPathUpdate();
-
-        panelsTelemetry.debug("Path State", pathState);
-        panelsTelemetry.debug("X", follower.getPose().getX());
-        panelsTelemetry.debug("Y", follower.getPose().getY());
-        panelsTelemetry.debug("Heading", follower.getPose().getHeading());
-        panelsTelemetry.update(telemetry);
     }
 
     private void autonomousPathUpdate() {
@@ -386,17 +379,17 @@ public class CloseSideBlueTwelve extends OpMode {
                     .addPath(
                             new BezierLine(
                                     new Pose(125.6945320197044, 122.38384729064042).mirror(),
-                                    new Pose(95.84280662983427, 91).mirror()
+                                    new Pose(95.84280662983427, 87).mirror()
                             )
                     )
-                    .setLinearHeadingInterpolation(Math.toRadians(180-36), Math.toRadians(180-47.5))
+                    .setLinearHeadingInterpolation(Math.toRadians(180-36), Math.toRadians(180-45))
                     .build();
 
             shootToFirstInkate = follower.pathBuilder()
                     .addPath(
                             new BezierLine(
-                                    new Pose(95.84280662983427, 91).mirror(),
-                                    new Pose(130.19211822660097, 80.84236453201973).mirror()
+                                    new Pose(95.84280662983427, 87).mirror(),
+                                    new Pose(132.19211822660097, 84.84236453201973).mirror()
                             )
                     )
                     .setLinearHeadingInterpolation(Math.toRadians(180), Math.toRadians(180))
@@ -405,7 +398,7 @@ public class CloseSideBlueTwelve extends OpMode {
             firstIntakeToGate = follower.pathBuilder()
                     .addPath(
                             new BezierCurve(
-                                    new Pose(130.19211822660097, 80.84236453201973).mirror(),
+                                    new Pose(132.19211822660097, 84.84236453201973).mirror(),
                                     new Pose(108.685, 75.453).mirror(),
                                     new Pose(130.547, 75.621).mirror()
                             )

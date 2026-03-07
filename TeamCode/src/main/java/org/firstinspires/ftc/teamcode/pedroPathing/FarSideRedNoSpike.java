@@ -20,7 +20,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 
-@Autonomous(name = "FAR SIDE RED NO SPIKE", group = "No Spike")
+@Autonomous(name = "FAR SIDE RED NO SPIKE", group = "FarRed")
 @Configurable
 public class FarSideRedNoSpike extends OpMode {
 
@@ -56,7 +56,7 @@ public class FarSideRedNoSpike extends OpMode {
     private Limelight3A limelight = null;
 
     // Aiming constants
-    private static final double ROTATION_KP        = 0.05;
+    private static final double ROTATION_KP        = 0.03;
     private static final double TARGET_TOLERANCE   = 1.5;
     private static final double MIN_ROTATION_POWER = 0.13;
     private static final double MAX_ROTATION_POWER = 0.4;
@@ -561,14 +561,14 @@ public class FarSideRedNoSpike extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 56.879, 8.412),
                             new Pose(144 - 59.6828929, 16.22253129)))
-                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(61))
+                    .setLinearHeadingInterpolation(Math.toRadians(90), Math.toRadians(67))
                     .build();
 
             Path3 = follower.pathBuilder()
                     .addPath(new BezierLine(
                             new Pose(144 - 58.481, 18.826),
                             new Pose(144 - 41.458, 12.217)))
-                    .setLinearHeadingInterpolation(Math.toRadians(75), Math.toRadians(-20))
+                    .setLinearHeadingInterpolation(Math.toRadians(67), Math.toRadians(-20))
                     .build();
 
             Path4 = follower.pathBuilder()
@@ -582,14 +582,14 @@ public class FarSideRedNoSpike extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 10.214, 12.217),
                             new Pose(144 - 59, 19.773)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(83))
+                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(67))
                     .build();
 
             Path7 = follower.pathBuilder()
                     .addPath(new BezierLine(
                             new Pose(144 - 58.481, 18.826),
                             new Pose(144 - 41.458, 12.217)))
-                    .setLinearHeadingInterpolation(Math.toRadians(83), Math.toRadians(-20))
+                    .setLinearHeadingInterpolation(Math.toRadians(67), Math.toRadians(-20))
                     .build();
 
             Path8 = follower.pathBuilder()
@@ -618,7 +618,7 @@ public class FarSideRedNoSpike extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 58.481, 18.826),
                             new Pose(144 - 41.458, 12.217)))
-                    .setLinearHeadingInterpolation(Math.toRadians(83), Math.toRadians(-20))
+                    .setLinearHeadingInterpolation(Math.toRadians(67), Math.toRadians(-20))
                     .build();
 
             Path13 = follower.pathBuilder()
@@ -632,7 +632,7 @@ public class FarSideRedNoSpike extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 10.214, 12.217),
                             new Pose(144 - 59, 19.773)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(83))
+                    .setLinearHeadingInterpolation(Math.toRadians(-20), Math.toRadians(67))
                     .build();
         }
     }

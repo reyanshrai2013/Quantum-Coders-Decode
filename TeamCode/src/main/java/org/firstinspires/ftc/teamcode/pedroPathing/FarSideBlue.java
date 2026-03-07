@@ -18,7 +18,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
 
-@Autonomous(name = "BLUE FAR SIDE", group = "Autonomous")
+@Autonomous(name = "BLUE FAR SIDE", group = "FarBlue")
 public class FarSideBlue extends OpMode {
 
     // ── Pedro Pathing ─────────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ public class FarSideBlue extends OpMode {
     private Limelight3A limelight = null;
 
     // Aiming constants
-    private static final double ROTATION_KP        = 0.05;
+    private static final double ROTATION_KP        = 0.025;
     private static final double TARGET_TOLERANCE   = 1.5;
     private static final double MIN_ROTATION_POWER = 0.13;
     private static final double MAX_ROTATION_POWER = 0.4;
@@ -215,7 +215,7 @@ public class FarSideBlue extends OpMode {
                 if (!follower.isBusy()) {
                     intake.setPower(0);
                     feed.setPower(0);
-                    setLauncherVelocity(1500);
+                    setLauncherVelocity(1440);
                     waitStartTime = System.currentTimeMillis();
                     waitStarted   = true;
                     pathStarted   = false;
@@ -241,7 +241,7 @@ public class FarSideBlue extends OpMode {
             case 5:
                 if (!pathStarted) {
                     follower.breakFollowing();
-                    setLauncherVelocity(1460);
+                    setLauncherVelocity(1440);
                     launcherStartTime = System.currentTimeMillis();
                     waitStartTime     = System.currentTimeMillis();
                     startAim();
@@ -573,7 +573,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 56.879, 144 - 8.412),
                             new Pose(144 - 54.6828929, 144 - 16.22253129)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-90), Math.toRadians(-61))
+                    .setLinearHeadingInterpolation(Math.toRadians(-90), Math.toRadians(-74))
                     .build();
 
             // ── Path3: shooting position → ball stack ─────────────────────────
@@ -583,7 +583,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 54.6828929, 144 - 16.22253129),
                             new Pose(144 - 49.0681502, 144 - 35.4492350)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-61), Math.toRadians(3))
+                    .setLinearHeadingInterpolation(Math.toRadians(-74), Math.toRadians(3))
                     .build();
 
             // ── Path4: sweep first ball stack ─────────────────────────────────
@@ -592,7 +592,7 @@ public class FarSideBlue extends OpMode {
             Path4 = follower.pathBuilder()
                     .addPath(new BezierLine(
                             new Pose(144 - 49.0681502, 144 - 35.4492350),
-                            new Pose(144 - 10.11307371349096, 144 - 35.64951321)))
+                            new Pose(144 - 8.11307371349096, 144 - 35.64951321)))
                     .setLinearHeadingInterpolation(Math.toRadians(3), Math.toRadians(0))
                     .build();
 
@@ -601,9 +601,9 @@ public class FarSideBlue extends OpMode {
             // Blue: (133.887, 108.350, 0°) → (85.317, 122.777, -69°)
             Path5 = follower.pathBuilder()
                     .addPath(new BezierLine(
-                            new Pose(144 - 10.11307371349096, 144 - 35.64951321),
+                            new Pose(144 - 8.11307371349096, 144 - 35.64951321),
                             new Pose(144 - 58.6828929, 144 - 21.22253129)))
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-69))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-74))
                     .build();
 
             // ── Path7: swing toward second ball stack ─────────────────────────
@@ -613,7 +613,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 52.6828929, 144 - 20.22253129),
                             new Pose(144 - 41.458, 144 - 8.217)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-75), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(-74), Math.toRadians(0))
                     .build();
 
             // ── Path8: sweep second ball stack ────────────────────────────────
@@ -633,7 +633,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 16.214, 144 - 6.217),
                             new Pose(144 - 59, 144 - 16.773)))
-                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-83))
+                    .setLinearHeadingInterpolation(Math.toRadians(0), Math.toRadians(-74))
                     .build();
 
             // ── Path11: park ──────────────────────────────────────────────────
@@ -643,7 +643,7 @@ public class FarSideBlue extends OpMode {
                     .addPath(new BezierLine(
                             new Pose(144 - 59, 144 - 14.773),
                             new Pose(84.551724137931, 144 - 37.06502463054187)))
-                    .setLinearHeadingInterpolation(Math.toRadians(-88), Math.toRadians(0))
+                    .setLinearHeadingInterpolation(Math.toRadians(-74), Math.toRadians(0))
                     .build();
 
             // ── Path10a: shooting position → start of third stack sweep ────────

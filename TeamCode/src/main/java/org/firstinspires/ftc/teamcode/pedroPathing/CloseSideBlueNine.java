@@ -17,7 +17,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-@Autonomous(name = "CLOSE SIDE BLUE NINE", group = "Autonomous")
+@Autonomous(name = "CLOSE SIDE BLUE NINE", group = "CloseBlue")
 @Configurable
 public class CloseSideBlueNine extends OpMode {
 
